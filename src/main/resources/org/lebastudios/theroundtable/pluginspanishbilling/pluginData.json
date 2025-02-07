@@ -1,0 +1,16 @@
+{
+  "pluginName": "Facturación Española",
+  "pluginId": "plugin-spanish-billing",
+  "pluginIcon": "billing.png",
+  "pluginDescription": "Plugin para hacer uso del sistema de facturación de España así como integración con Verifactu",
+  "pluginVersion": "1.0.0",
+  "pluginVendor": "Leba Studios - Software Solutions",
+  "pluginVendorUrl": "https://lebastudios.org",
+  "pluginRequiredCoreVersion": "2.5.0",
+  "pluginDependencies": [
+    {
+      "pluginId": "plugin-cash-register",
+      "pluginVersion": "1.5.0"
+    }
+  ]
+}

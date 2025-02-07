@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx" spacing="10"
+      xmlns:fx="http://javafx.com/fxml">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <HBox alignment="CENTER_LEFT">
+        <Label text="%phrase.sellsSeries" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+        <TextField fx:id="sellsSeriesTextField" />
+    </HBox>
+    
+    <HBox alignment="CENTER_LEFT">
+        <Label text="%phrase.rectificationsSeries" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+        <TextField fx:id="rectificationSeriesTextField" />
+    </HBox>
+    
+    <HBox alignment="CENTER_LEFT">
+        <Label text="%word.delimiter" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+        <ChoiceBox fx:id="delimiterChoiceBox" />
+    </HBox>
+    
+    <Label fx:id="sellsBillNumberExample" />
+    <Label fx:id="rectificationsBillNumberExample" />
+</VBox>

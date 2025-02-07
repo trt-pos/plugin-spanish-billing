@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.lebastudios.theroundtable.ui.IconButton?>
+<?import org.lebastudios.theroundtable.ui.SearchBox?>
+<?import org.lebastudios.theroundtable.ui.MultipleItemsListView?>
+<?import org.lebastudios.theroundtable.ui.IconTextButton?>
+<HBox xmlns="http://javafx.com/javafx" fx:id="root"
+      xmlns:fx="http://javafx.com/fxml" spacing="15">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <VBox HBox.hgrow="ALWAYS" alignment="CENTER" spacing="5">
+        <SearchBox maxWidth="Infinity" HBox.hgrow="ALWAYS" fx:id="billsSearchBox"/>
+        <MultipleItemsListView VBox.vgrow="ALWAYS" fx:id="billsListView"/>
+    </VBox>
+
+    <VBox HBox.hgrow="ALWAYS" spacing="15">
+        <SearchBox maxWidth="Infinity" HBox.hgrow="ALWAYS" visible="false"/>
+        
+        <VBox spacing="5" HBox.hgrow="ALWAYS" >
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="Número del proximo recibo:" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                <Label fx:id="receiptBillNumberPrefix"/>
+                <TextField fx:id="nextReceiptBillNumber" prefWidth="100"/>
+            </HBox>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="Número del ultimo recibo: " HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lastReceiptNumberLabel"/>
+            </HBox>
+        </VBox>
+
+        <VBox spacing="5" HBox.hgrow="ALWAYS" >
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="Número de la proxima rectificación:" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                <Label fx:id="rectificationBillNumberPrefix"/>
+                <TextField fx:id="nextRectificationBillNumber"  prefWidth="100"/>
+            </HBox>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="Número de la ultima rectificación: " HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lastRectificationNumberLabel"/>
+            </HBox>
+        </VBox>
+
+        <IconTextButton text="Guardar próximas numeraciones" maxWidth="Infinity" onAction="#saveNextBillNumbers" iconName="save.png" iconSize="24"/>
+        
+        <HBox VBox.vgrow="ALWAYS" />
+        
+        <Button HBox.hgrow="ALWAYS" maxWidth="Infinity" text="Defaul text" fx:id="billingStatusButton"/>
+    </VBox>
+</HBox>
