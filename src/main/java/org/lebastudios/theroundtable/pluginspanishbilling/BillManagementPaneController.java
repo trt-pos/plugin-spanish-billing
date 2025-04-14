@@ -1,5 +1,6 @@
 package org.lebastudios.theroundtable.pluginspanishbilling;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,11 +11,10 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.lebastudios.theroundtable.MainStageController;
 import org.lebastudios.theroundtable.apparience.UIEffects;
-import org.lebastudios.theroundtable.config.data.JSONFile;
 import org.lebastudios.theroundtable.controllers.PaneController;
 import org.lebastudios.theroundtable.dialogs.ConfirmationTextDialogController;
 import org.lebastudios.theroundtable.plugincashregister.entities.Receipt;
-import org.lebastudios.theroundtable.pluginspanishbilling.data.BillingData;
+import org.lebastudios.theroundtable.pluginspanishbilling.config.BillingConfigData;
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
 import org.lebastudios.theroundtable.ui.IconView;
 import org.lebastudios.theroundtable.ui.MultipleItemsListView;
@@ -25,27 +25,27 @@ import java.time.format.DateTimeFormatter;
 
 public class BillManagementPaneController extends PaneController<BillManagementPaneController>
 {
-    @FXML private SearchBox billsSearchBox;
-    @FXML private MultipleItemsListView<SimplifiedBill> billsListView;
+    @FXML public SearchBox billsSearchBox;
+    @FXML public MultipleItemsListView<SimplifiedBill> billsListView;
 
-    @FXML private Label receiptBillNumberPrefix;
-    @FXML private TextField nextReceiptBillNumber;
-    @FXML private Label lastReceiptNumberLabel;
+    @FXML public Label receiptBillNumberPrefix;
+    @FXML public TextField nextReceiptBillNumber;
+    @FXML public Label lastReceiptNumberLabel;
 
-    @FXML private Label rectificationBillNumberPrefix;
-    @FXML private TextField nextRectificationBillNumber;
-    @FXML private Label lastRectificationNumberLabel;
+    @FXML public Label rectificationBillNumberPrefix;
+    @FXML public TextField nextRectificationBillNumber;
+    @FXML public Label lastRectificationNumberLabel;
 
-    @FXML private Button billingStatusButton;
+    @FXML public Button billingStatusButton;
 
     @Override
     protected void initialize()
     {
-        BillingData billingData = new JSONFile<>(BillingData.class).get();
+        BillingConfigData billingConfigData = new BillingConfigData().load();
 
-        receiptBillNumberPrefix.setText(billingData.getReceiptBillNumberPrefix());
-        nextReceiptBillNumber.setText(billingData.nextReceiptBillNumber);
-        lastReceiptNumberLabel.setText(billingData.lastReceiptBillNumberWithPrefix);
+        receiptBillNumberPrefix.setText(billingConfigData.getReceiptBillNumberPrefix());
+        nextReceiptBillNumber.setText(billingConfigData.nextReceiptBillNumber);
+        lastReceiptNumberLabel.setText(billingConfigData.lastReceiptBillNumberWithPrefix);
 
         nextReceiptBillNumber.textProperty().addListener((_, oldValue, newValue) ->
         {
@@ -56,9 +56,9 @@ public class BillManagementPaneController extends PaneController<BillManagementP
             }
         });
 
-        rectificationBillNumberPrefix.setText(billingData.getRectificationBillNumberPrefix());
-        nextRectificationBillNumber.setText(billingData.nextRectificationBillNumber);
-        lastRectificationNumberLabel.setText(billingData.lastRectificationBillNumberWithPrefix);
+        rectificationBillNumberPrefix.setText(billingConfigData.getRectificationBillNumberPrefix());
+        nextRectificationBillNumber.setText(billingConfigData.nextRectificationBillNumber);
+        lastRectificationNumberLabel.setText(billingConfigData.lastRectificationBillNumberWithPrefix);
 
         nextRectificationBillNumber.textProperty().addListener((_, oldValue, newValue) ->
         {
@@ -100,9 +100,11 @@ public class BillManagementPaneController extends PaneController<BillManagementP
             private final Tooltip billStatusTooltip = new Tooltip();
 
             {
-                System.out.println("Creating cell recicler");
                 Tooltip.install(billStatusIcon, billStatusTooltip);
 
+                receiptStatusIcon.setIconSize(30);
+                billStatusIcon.setIconSize(30);
+                
                 graphic = new HBox(receiptStatusIcon, billStatusIcon);
                 graphic.setSpacing(5);
             }
@@ -142,29 +144,23 @@ public class BillManagementPaneController extends PaneController<BillManagementP
     }
 
     @FXML
-    private void saveNextBillNumbers()
+    public void saveNextBillNumbers(ActionEvent actionEvent)
     {
-        var billingData = new JSONFile<>(BillingData.class);
+        var billingData = new BillingConfigData().load();
 
         new ConfirmationTextDialogController("Al modificar este valor tenga en cuenta las reglas de numeración de " +
                 "facturas de su país. ¿Desea realizar el cambio de todos modos?", response ->
         {
             if (response)
             {
-                billingData.get().nextReceiptBillNumber = nextReceiptBillNumber.getText();
-                billingData.get().nextRectificationBillNumber = nextRectificationBillNumber.getText();
+                billingData.nextReceiptBillNumber = nextReceiptBillNumber.getText();
+                billingData.nextRectificationBillNumber = nextRectificationBillNumber.getText();
                 billingData.save();
             }
         }).instantiate(true);
 
-        nextReceiptBillNumber.setText(billingData.get().nextReceiptBillNumber);
-        nextRectificationBillNumber.setText(billingData.get().nextRectificationBillNumber);
-    }
-
-    @Override
-    public Class<?> getBundleClass()
-    {
-        return PluginSpanishBilling.class;
+        nextReceiptBillNumber.setText(billingData.nextReceiptBillNumber);
+        nextRectificationBillNumber.setText(billingData.nextRectificationBillNumber);
     }
 
     public record SimplifiedBill(String billNumber, LocalDateTime billDate, Receipt.Status receiptStatus,

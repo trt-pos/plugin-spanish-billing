@@ -1,11 +1,11 @@
-package org.lebastudios.theroundtable.pluginspanishbilling.data;
+package org.lebastudios.theroundtable.pluginspanishbilling.config;
 
-import org.lebastudios.theroundtable.config.data.FileRepresentator;
+import org.lebastudios.theroundtable.config.ConfigData;
 import org.lebastudios.theroundtable.pluginspanishbilling.PluginSpanishBilling;
 
 import java.io.File;
 
-public class BillingData implements FileRepresentator
+public class BillingConfigData extends ConfigData<BillingConfigData>
 {
     public String serieVentas = "A";
     public String serieRectificaciones = "R";
@@ -16,17 +16,17 @@ public class BillingData implements FileRepresentator
 
     public String nextRectificationBillNumber = "1";
     public String lastRectificationBillNumberWithPrefix = "No emitido";
-    
+
     public String getReceiptBillNumberPrefix()
     {
         return (serieVentas + delimitador).stripLeading();
     }
-    
+
     public String getRectificationBillNumberPrefix()
     {
         return (serieRectificaciones + delimitador).stripLeading();
     }
-    
+
     @Override
     public File getFile()
     {

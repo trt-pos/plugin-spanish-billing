@@ -2,10 +2,9 @@ package org.lebastudios.theroundtable.pluginspanishbilling;
 
 import org.controlsfx.control.action.Action;
 import org.lebastudios.theroundtable.MainStageController;
-import org.lebastudios.theroundtable.config.data.JSONFile;
 import org.lebastudios.theroundtable.database.Database;
 import org.lebastudios.theroundtable.plugincashregister.entities.Receipt;
-import org.lebastudios.theroundtable.pluginspanishbilling.data.BillingData;
+import org.lebastudios.theroundtable.pluginspanishbilling.config.BillingConfigData;
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
 import org.lebastudios.theroundtable.pluginspanishbilling.ordering.Number;
 
@@ -43,7 +42,7 @@ public class BillingManager
     {
         if (haveAllReceiptsAlreadyBeenBilled(receiptId))
         {
-            final var billingData = new JSONFile<>(BillingData.class).get();
+            final var billingData = new BillingConfigData().load();
             billNumber.append(billingData.getReceiptBillNumberPrefix())
                     .append(billingData.nextReceiptBillNumber);
         }
@@ -67,7 +66,7 @@ public class BillingManager
     {
         if (haveAllReceiptsAlreadyBeenBilled(receiptId))
         {
-            final var billingData = new JSONFile<>(BillingData.class).get();
+            final var billingData = new BillingConfigData().load();
             billNumber.append(billingData.getRectificationBillNumberPrefix())
                     .append(billingData.nextRectificationBillNumber);
         }
@@ -89,11 +88,11 @@ public class BillingManager
 
     public void onReceiptBilled(Receipt receipt, String billNumberWithPrefix, boolean rectification)
     {
-        var billingData = new JSONFile<>(BillingData.class);
+        var billingData = new BillingConfigData().load();
 
         int prefixLength = (rectification
-                ? billingData.get().getRectificationBillNumberPrefix()
-                : billingData.get().getReceiptBillNumberPrefix())
+                ? billingData.getRectificationBillNumberPrefix()
+                : billingData.getReceiptBillNumberPrefix())
                 .length();
 
         String billNumber = billNumberWithPrefix.substring(prefixLength);
@@ -109,13 +108,13 @@ public class BillingManager
 
             if (rectification)
             {
-                billingData.get().lastRectificationBillNumberWithPrefix = billNumberWithPrefix;
-                billingData.get().nextRectificationBillNumber = Number.next(billNumber);
+                billingData.lastRectificationBillNumberWithPrefix = billNumberWithPrefix;
+                billingData.nextRectificationBillNumber = Number.next(billNumber);
             }
             else
             {
-                billingData.get().lastReceiptBillNumberWithPrefix = billNumberWithPrefix;
-                billingData.get().nextReceiptBillNumber = Number.next(billNumber);
+                billingData.lastReceiptBillNumberWithPrefix = billNumberWithPrefix;
+                billingData.nextReceiptBillNumber = Number.next(billNumber);
             }
 
             billingData.save();
@@ -148,7 +147,7 @@ public class BillingManager
     {
         Database.getInstance().connectTransaction(session ->
         {
-            var billingData = new JSONFile<>(BillingData.class);
+            var billingData = new BillingConfigData().load();
 
             // Billing the regular receipts
             List<Receipt> notBilledReceipts = session.createQuery("from Receipt r " +
@@ -157,11 +156,11 @@ public class BillingManager
                             "order by r.transaction.date asc", Receipt.class)
                     .getResultList();
 
-            String receiptBillPrefix = billingData.get().getReceiptBillNumberPrefix();
+            String receiptBillPrefix = billingData.getReceiptBillNumberPrefix();
 
             notBilledReceipts.forEach(r ->
             {
-                String nextBillNumber = billingData.get().nextReceiptBillNumber;
+                String nextBillNumber = billingData.nextReceiptBillNumber;
 
                 String thisBillNumber = receiptBillPrefix + nextBillNumber;
 
@@ -173,8 +172,8 @@ public class BillingManager
 
                 session.persist(bill);
 
-                billingData.get().lastReceiptBillNumberWithPrefix = thisBillNumber;
-                billingData.get().nextReceiptBillNumber = calculateNextBillNumber(nextBillNumber);
+                billingData.lastReceiptBillNumberWithPrefix = thisBillNumber;
+                billingData.nextReceiptBillNumber = calculateNextBillNumber(nextBillNumber);
             });
 
             // Billing the modification receipts
@@ -183,11 +182,11 @@ public class BillingManager
                             "order by r.transaction.date asc", Receipt.class)
                     .getResultList();
 
-            String modBillPrefix = billingData.get().getRectificationBillNumberPrefix();
+            String modBillPrefix = billingData.getRectificationBillNumberPrefix();
             
             notBilledModReceipts.forEach(r ->
             {
-                String nextBillNumber = billingData.get().nextRectificationBillNumber;
+                String nextBillNumber = billingData.nextRectificationBillNumber;
 
                 String thisBillNumber = modBillPrefix + nextBillNumber;
 
@@ -199,8 +198,8 @@ public class BillingManager
 
                 session.persist(bill);
 
-                billingData.get().lastRectificationBillNumberWithPrefix = thisBillNumber;
-                billingData.get().nextRectificationBillNumber = calculateNextBillNumber(nextBillNumber);
+                billingData.lastRectificationBillNumberWithPrefix = thisBillNumber;
+                billingData.nextRectificationBillNumber = calculateNextBillNumber(nextBillNumber);
             });
 
             billingData.save();

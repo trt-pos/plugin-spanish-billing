@@ -1,0 +1,1 @@
+drop table if exists sb_spain_bill;
