@@ -97,7 +97,7 @@ public class BillingManager
 
         String billNumber = billNumberWithPrefix.substring(prefixLength);
 
-        Database.getInstance().connectTransaction(session ->
+        boolean billSaved = Database.getInstance().connectTransactionWithBool(session ->
         {
             Bill bill = new Bill();
             bill.setReceipt(receipt);
@@ -105,7 +105,10 @@ public class BillingManager
             bill.setBillDate(receipt.getTransaction().getDate());
 
             session.persist(bill);
-
+        });
+        
+        if (billSaved) 
+        {
             if (rectification)
             {
                 billingData.lastRectificationBillNumberWithPrefix = billNumberWithPrefix;
@@ -118,7 +121,7 @@ public class BillingManager
             }
 
             billingData.save();
-        });
+        }
     }
 
     public String calculateNextBillNumber(String billNumberWithoutSerie)
