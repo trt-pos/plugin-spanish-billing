@@ -3,10 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.lebastudios.theroundtable.ui.IconButton?>
-<?import org.lebastudios.theroundtable.ui.SearchBox?>
-<?import org.lebastudios.theroundtable.ui.MultipleItemsListView?>
 <?import org.lebastudios.theroundtable.ui.IconTextButton?>
+<?import org.lebastudios.theroundtable.ui.MultipleItemsListView?>
+<?import org.lebastudios.theroundtable.ui.SearchBox?>
 <HBox xmlns="http://javafx.com/javafx" fx:id="root"
       xmlns:fx="http://javafx.com/fxml" spacing="15">
     <padding>
