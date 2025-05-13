@@ -13,9 +13,6 @@ import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
 import org.lebastudios.theroundtable.ui.IconView;
 import org.lebastudios.theroundtable.ui.LabeledIconButton;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 @CompileFxml(
