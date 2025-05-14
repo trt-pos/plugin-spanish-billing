@@ -5,23 +5,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.layout.HBox;
-import lombok.Getter;
-import lombok.NonNull;
 import org.lebastudios.theroundtable.MainStageController;
 import org.lebastudios.theroundtable.apparience.UIEffects;
 import org.lebastudios.theroundtable.controllers.PaneController;
+import org.lebastudios.theroundtable.database.Database;
 import org.lebastudios.theroundtable.dialogs.ConfirmationTextDialogController;
-import org.lebastudios.theroundtable.plugincashregister.entities.Receipt;
 import org.lebastudios.theroundtable.pluginspanishbilling.config.BillingConfigData;
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
+import org.lebastudios.theroundtable.pluginspanishbilling.entities.SimplifiedBill;
 import org.lebastudios.theroundtable.ui.IconView;
 import org.lebastudios.theroundtable.ui.MultipleItemsListView;
 import org.lebastudios.theroundtable.ui.SearchBox;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class BillManagementPaneController extends PaneController<BillManagementPaneController>
 {
@@ -37,6 +33,46 @@ public class BillManagementPaneController extends PaneController<BillManagementP
     @FXML public Label lastRectificationNumberLabel;
 
     @FXML public Button billingStatusButton;
+
+    private final MultipleItemsListView.ItemsGenerator<SimplifiedBill> simplifiedBillItemsGenerator =
+            new MultipleItemsListView.ItemsGenerator<>()
+            {
+                static final String COMMON_HQL = "from Bill b " +
+                        "where b.billNumber like %:filter% " +
+                        "order by b.billDate desc";
+
+                @Override
+                public List<SimplifiedBill> generateItems(int from, int to)
+                {
+                    return Database.getInstance().connectQuery(session ->
+                    {
+                        return session.createQuery(COMMON_HQL,
+                                        Bill.class)
+                                .setParameter("filter", billsSearchBox.getText())
+                                .setFirstResult(from)
+                                .setMaxResults(to)
+                                .stream()
+                                .map(b -> new SimplifiedBill(
+                                        b.getBillNumber(),
+                                        b.getBillDate(),
+                                        b.getReceipt().getStatus(),
+                                        Bill.Status.DEFAULT
+                                ))
+                                .toList();
+                    });
+                }
+
+                @Override
+                public long count()
+                {
+                    return Database.getInstance().connectQuery(session ->
+                    {
+                        return session.createQuery("select count(*) " + COMMON_HQL, Long.class)
+                                .setParameter("filter", billsSearchBox.getText())
+                                .uniqueResult();
+                    });
+                }
+            };
 
     @Override
     protected void initialize()
@@ -88,59 +124,11 @@ public class BillManagementPaneController extends PaneController<BillManagementP
             });
         }
 
-        billsListView.setCellReciclerGenerator(_ -> new MultipleItemsListView.ICellRecicler<>()
-        {
-            private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            
-            @Getter private final HBox graphic;
-            @Getter private String text = "";
-            
-            private final IconView receiptStatusIcon = new IconView();
-            private final IconView billStatusIcon = new IconView();
-            private final Tooltip billStatusTooltip = new Tooltip();
-
-            {
-                Tooltip.install(billStatusIcon, billStatusTooltip);
-
-                receiptStatusIcon.setIconSize(30);
-                billStatusIcon.setIconSize(30);
-                
-                graphic = new HBox(receiptStatusIcon, billStatusIcon);
-                graphic.setSpacing(5);
-            }
-
-            @Override
-            public void update(@NonNull SimplifiedBill item)
-            {
-                receiptStatusIcon.setIconName(item.receiptStatus().getIconName());
-                billStatusIcon.setIconName(item.billStatus().getIconName());
-
-                billStatusTooltip.setText(item.billStatus().getIconTooltip());
-
-                text = "Factura: " + item.billNumber() + "   " + item.billDate().format(DATE_FORMATTER);
-            }
-        });
-
-        populateBillsListView("");
-        billsSearchBox.setOnSearch(this::populateBillsListView);
-    }
-
-    private void populateBillsListView(String filter)
-    {
-        String hqlFilter = filter.isEmpty() ? "" : " where b.billNumber like '%" + filter + "%'";
-
-        billsListView.setItemsGenerator(
-                new MultipleItemsListView.HQLItemsGenerator<>("from Bill b" + hqlFilter + " order by b.billDate desc",
-                        Bill.class, b ->
-                        new SimplifiedBill(
-                                b.getBillNumber(),
-                                b.getBillDate(),
-                                b.getReceipt().getStatus(),
-                                Bill.Status.DEFAULT
-                        )
-                )
-        );
+        billsListView.setReciclablePaneFactory(BillLabelController::new);
+        billsListView.setItemsGenerator(simplifiedBillItemsGenerator);
         billsListView.refresh();
+
+        billsSearchBox.setOnSearch(_ -> billsListView.refresh());
     }
 
     @FXML
@@ -162,7 +150,4 @@ public class BillManagementPaneController extends PaneController<BillManagementP
         nextReceiptBillNumber.setText(billingData.nextReceiptBillNumber);
         nextRectificationBillNumber.setText(billingData.nextRectificationBillNumber);
     }
-
-    public record SimplifiedBill(String billNumber, LocalDateTime billDate, Receipt.Status receiptStatus,
-                                 Bill.Status billStatus) {}
 }
