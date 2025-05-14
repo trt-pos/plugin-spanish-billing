@@ -3,9 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.lebastudios.theroundtable.ui.IconTextButton?>
-<?import org.lebastudios.theroundtable.ui.MultipleItemsListView?>
-<?import org.lebastudios.theroundtable.ui.SearchBox?>
+<?import org.lebastudios.theroundtable.components.IconTextButton?>
+<?import org.lebastudios.theroundtable.components.PaginableListView?>
+<?import org.lebastudios.theroundtable.components.SearchBox?>
 <HBox xmlns="http://javafx.com/javafx" fx:id="root"
       xmlns:fx="http://javafx.com/fxml" spacing="15">
     <padding>
@@ -13,7 +13,7 @@
     </padding>
     <VBox HBox.hgrow="ALWAYS" alignment="CENTER" spacing="5">
         <SearchBox maxWidth="Infinity" HBox.hgrow="ALWAYS" fx:id="billsSearchBox"/>
-        <MultipleItemsListView VBox.vgrow="ALWAYS" fx:id="billsListView"/>
+        <PaginableListView VBox.vgrow="ALWAYS" fx:id="billsListView"/>
     </VBox>
 
     <VBox HBox.hgrow="ALWAYS" spacing="15">

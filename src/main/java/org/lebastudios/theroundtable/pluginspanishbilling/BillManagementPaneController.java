@@ -13,16 +13,16 @@ import org.lebastudios.theroundtable.dialogs.ConfirmationTextDialogController;
 import org.lebastudios.theroundtable.pluginspanishbilling.config.BillingConfigData;
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.SimplifiedBill;
-import org.lebastudios.theroundtable.ui.IconView;
-import org.lebastudios.theroundtable.ui.MultipleItemsListView;
-import org.lebastudios.theroundtable.ui.SearchBox;
+import org.lebastudios.theroundtable.components.IconView;
+import org.lebastudios.theroundtable.components.PaginableListView;
+import org.lebastudios.theroundtable.components.SearchBox;
 
 import java.util.List;
 
 public class BillManagementPaneController extends PaneController<BillManagementPaneController>
 {
     @FXML public SearchBox billsSearchBox;
-    @FXML public MultipleItemsListView<SimplifiedBill> billsListView;
+    @FXML public PaginableListView<SimplifiedBill> billsListView;
 
     @FXML public Label receiptBillNumberPrefix;
     @FXML public TextField nextReceiptBillNumber;
@@ -34,8 +34,8 @@ public class BillManagementPaneController extends PaneController<BillManagementP
 
     @FXML public Button billingStatusButton;
 
-    private final MultipleItemsListView.ItemsGenerator<SimplifiedBill> simplifiedBillItemsGenerator =
-            new MultipleItemsListView.ItemsGenerator<>()
+    private final PaginableListView.ItemsGenerator<SimplifiedBill> simplifiedBillItemsGenerator =
+            new PaginableListView.ItemsGenerator<>()
             {
                 static final String COMMON_HQL = "from Bill b " +
                         "where b.billNumber like %:filter% " +

@@ -6,13 +6,13 @@ import javafx.scene.control.Tooltip;
 import org.lebastudios.theroundtable.config.GlobalPreferencesConfigData;
 import org.lebastudios.theroundtable.controllers.PaneController;
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.SimplifiedBill;
-import org.lebastudios.theroundtable.ui.IconView;
-import org.lebastudios.theroundtable.ui.MultipleItemsListView;
+import org.lebastudios.theroundtable.components.IconView;
+import org.lebastudios.theroundtable.components.PaginableListView;
 
 import java.time.format.DateTimeFormatter;
 
 public class BillLabelController extends PaneController<BillLabelController> 
-        implements MultipleItemsListView.IReciclablePane<SimplifiedBill>
+        implements PaginableListView.IReciclablePane<SimplifiedBill>
 { 
     @FXML public IconView receiptStatusIcon;
     @FXML public IconView billStatusIcon;
@@ -28,7 +28,7 @@ public class BillLabelController extends PaneController<BillLabelController>
 
     @Override
     public PaneController<?> updateItem(SimplifiedBill item, 
-            MultipleItemsListView<SimplifiedBill> control)
+            PaginableListView<SimplifiedBill> control)
     {
         receiptStatusIcon.setIconName(item.receiptStatus().getIconName());
         billStatusIcon.setIconName(item.billStatus().getIconName());

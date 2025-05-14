@@ -10,8 +10,8 @@ import org.lebastudios.theroundtable.plugincashregister.PluginCashRegisterEvents
 import org.lebastudios.theroundtable.plugins.IPlugin;
 import org.lebastudios.theroundtable.pluginspanishbilling.config.BillingConfigPaneController;
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
-import org.lebastudios.theroundtable.ui.IconView;
-import org.lebastudios.theroundtable.ui.LabeledIconButton;
+import org.lebastudios.theroundtable.components.IconView;
+import org.lebastudios.theroundtable.components.LabeledIconButton;
 
 import java.util.List;
 
