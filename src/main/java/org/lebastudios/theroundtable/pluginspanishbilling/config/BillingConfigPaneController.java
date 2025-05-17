@@ -5,29 +5,40 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.lebastudios.theroundtable.config.ConfigPaneController;
+import org.lebastudios.theroundtable.config.NoConfigFile;
+import org.lebastudios.theroundtable.database.Database;
+import org.lebastudios.theroundtable.pluginspanishbilling.entities.BillType;
+import org.lebastudios.theroundtable.pluginspanishbilling.entities.BillingConfig;
 
-public class BillingConfigPaneController extends ConfigPaneController<BillingConfigData>
+import java.util.HashMap;
+
+public class BillingConfigPaneController extends ConfigPaneController<NoConfigFile>
 {
     @FXML public Label sellsBillNumberExample;
     @FXML public Label rectificationsBillNumberExample;
     @FXML public TextField sellsSeriesTextField;
     @FXML public TextField rectificationSeriesTextField;
     @FXML public ChoiceBox<String> delimiterChoiceBox;
-
+    
     public BillingConfigPaneController()
     {
-        super(new BillingConfigData(), "Facturación", "billing.png");
+        super(new NoConfigFile(), "Facturación", "billing.png");
     }
 
     @Override
-    public void updateUI(BillingConfigData configData)
+    public void updateUI(NoConfigFile configData)
     {
+        HashMap<BillType, BillingConfig> billingConfigs = BillingConfig.queryAllConfigs();
+
         delimiterChoiceBox.getItems().clear();
         delimiterChoiceBox.getItems().addAll("-", "/", "\\", " ", ":");
 
-        sellsSeriesTextField.setText(configData.serieVentas);
-        rectificationSeriesTextField.setText(configData.serieRectificaciones);
-        delimiterChoiceBox.setValue(String.valueOf(configData.delimitador));
+        BillingConfig sellsConfig = billingConfigs.get(BillType.SELL);
+        BillingConfig rectificationConfig = billingConfigs.get(BillType.RECT);
+        
+        sellsSeriesTextField.setText(sellsConfig.getSeries());
+        rectificationSeriesTextField.setText(rectificationConfig.getSeries());
+        delimiterChoiceBox.setValue(String.valueOf(sellsConfig.getDelimiter()));
 
         updateExamples();
 
@@ -37,11 +48,21 @@ public class BillingConfigPaneController extends ConfigPaneController<BillingCon
     }
 
     @Override
-    public void updateConfigData(BillingConfigData configData)
+    public void updateConfigData(NoConfigFile configData)
     {
-        configData.serieVentas = sellsSeriesTextField.getText();
-        configData.serieRectificaciones = rectificationSeriesTextField.getText();
-        configData.delimitador = delimiterChoiceBox.getValue().charAt(0);
+        Database.getInstance().connectTransaction(session ->
+        {
+            HashMap<BillType, BillingConfig> billingConfigs = BillingConfig.queryAllConfigs(session);
+            
+            billingConfigs.get(BillType.SELL).setSeries(sellsSeriesTextField.getText());
+            billingConfigs.get(BillType.SELL).setDelimiter(delimiterChoiceBox.getValue().charAt(0));
+            billingConfigs.get(BillType.RECT).setSeries(rectificationSeriesTextField.getText());
+            billingConfigs.get(BillType.RECT).setDelimiter(delimiterChoiceBox.getValue().charAt(0));
+
+            session.merge(billingConfigs.get(BillType.SELL));
+            session.merge(billingConfigs.get(BillType.RECT));
+            
+        });
     }
 
     @Override
@@ -53,6 +74,7 @@ public class BillingConfigPaneController extends ConfigPaneController<BillingCon
     private void updateExamples()
     {
         sellsBillNumberExample.setText("\t" + sellsSeriesTextField.getText() + delimiterChoiceBox.getValue() + "1");
-        rectificationsBillNumberExample.setText("\t" + rectificationSeriesTextField.getText() + delimiterChoiceBox.getValue() + "1");
+        rectificationsBillNumberExample.setText(
+                "\t" + rectificationSeriesTextField.getText() + delimiterChoiceBox.getValue() + "1");
     }
 }

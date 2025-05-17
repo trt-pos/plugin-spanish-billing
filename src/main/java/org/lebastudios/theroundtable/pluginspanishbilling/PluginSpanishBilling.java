@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.lebastudios.theroundtable.MainStageController;
 import org.lebastudios.theroundtable.accounts.AccountManager;
 import org.lebastudios.theroundtable.config.SettingsItem;
+import org.lebastudios.theroundtable.entities.AppInstallation;
 import org.lebastudios.theroundtable.fxml2java.CompileFxml;
 import org.lebastudios.theroundtable.plugincashregister.PluginCashRegisterEvents;
 import org.lebastudios.theroundtable.plugins.IPlugin;
@@ -12,6 +13,7 @@ import org.lebastudios.theroundtable.pluginspanishbilling.config.BillingConfigPa
 import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
 import org.lebastudios.theroundtable.components.IconView;
 import org.lebastudios.theroundtable.components.LabeledIconButton;
+import org.lebastudios.theroundtable.pluginspanishbilling.entities.BillingConfig;
 
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class PluginSpanishBilling implements IPlugin
     @Override
     public void initialize()
     {
+        if (!AppInstallation.thisInstalation().isMaster()) return;
+        
         instance = this;
 
         PluginCashRegisterEvents.onRequestReceiptBillNumber.addListener((receiptId, billNumber) -> 
@@ -47,6 +51,8 @@ public class PluginSpanishBilling implements IPlugin
     @Override
     public List<LabeledIconButton> getHomeButtons()
     {
+        if (!AppInstallation.thisInstalation().isMaster()) return List.of();
+        
         final var billingSettings = new LabeledIconButton("Facturación", new IconView("billing.png"), _ ->
         {
             MainStageController.getInstance().setCentralNode(new BillManagementPaneController());
@@ -60,6 +66,7 @@ public class PluginSpanishBilling implements IPlugin
     @Override
     public TreeItem<SettingsItem> getSettingsRootTreeItem()
     {
+        if (!AppInstallation.thisInstalation().isMaster()) return null;
         if (!AccountManager.getInstance().isAccountAdmin()) return null;
         
         TreeItem<SettingsItem> root = new TreeItem<>();
@@ -74,7 +81,7 @@ public class PluginSpanishBilling implements IPlugin
     @Override
     public List<Class<?>> getPluginEntities()
     {
-        return List.of(Bill.class);
+        return List.of(Bill.class, BillingConfig.class);
     }
 
     @Override

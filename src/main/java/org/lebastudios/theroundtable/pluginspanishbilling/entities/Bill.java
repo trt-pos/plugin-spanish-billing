@@ -18,11 +18,12 @@ import java.time.LocalDateTime;
 public class Bill
 {
     @Id
-    @Column(name = "bill_number")
-    private String billNumber;
+    @Column(name = "id", nullable = false)
+    private String id;
     
-    @Column(name = "bill_date")
-    private LocalDateTime billDate;
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private BillType type;
     
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receipt_id", referencedColumnName = "id")
