@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Session;
 import org.lebastudios.theroundtable.database.Database;
+import org.lebastudios.theroundtable.database.PluginTable;
 
 import java.util.HashMap;
 
-@Table(name = "sb_billing_config")
+@PluginTable(name = "billing_config")
 @Entity
 @Setter
 @Getter

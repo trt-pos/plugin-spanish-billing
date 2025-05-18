@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.lebastudios.theroundtable.database.PluginTable;
 import org.lebastudios.theroundtable.plugincashregister.entities.Receipt;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sb_spain_bill")
+@PluginTable(name = "spain_bill")
 public class Bill
 {
     @Id
