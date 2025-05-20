@@ -53,7 +53,7 @@ public class PluginSpanishBilling implements IPlugin
     {
         if (!AppInstallation.thisInstalation().isMaster()) return List.of();
         
-        final var billingSettings = new LabeledIconButton("Facturación", new IconView("billing.png"), _ ->
+        final var billingSettings = new LabeledIconButton("Facturación", "billing.png", _ ->
         {
             MainStageController.getInstance().setCentralNode(new BillManagementPaneController());
         });
