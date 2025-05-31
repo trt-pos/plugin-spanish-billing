@@ -24,19 +24,15 @@ public class BillManagementPaneController extends PaneController<BillManagementP
             new PaginableListView.ItemsGenerator<>()
             {
                 static final String COMMON_HQL = "from Bill b " +
-                        "where b.id like :filter " +
-                        "order by b.receipt.transaction.date desc";
+                        "where b.id like :filter";
 
                 @Override
                 public List<SimplifiedBill> generateItems(int from, int to)
                 {
                     return Database.getInstance().connectQuery(session ->
                     {
-                        return session.createQuery(COMMON_HQL,
-                                        Bill.class)
-                                .setParameter("filter", "%" + billsSearchBox.getText() + "%")
-                                .setFirstResult(from)
-                                .setMaxResults(to)
+                        var a = session.createQuery( "from Bill b  order by b.receipt.transaction.date desc",
+                                        Bill.class) 
                                 .stream()
                                 .map(b -> new SimplifiedBill(
                                         b.getId(),
@@ -45,6 +41,10 @@ public class BillManagementPaneController extends PaneController<BillManagementP
                                         Bill.Status.DEFAULT
                                 ))
                                 .toList();
+
+                        System.out.println("Generating items from " + from + " to " + to + ": " + a.size());
+                        
+                        return a;
                     });
                 }
 
