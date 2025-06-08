@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.lebastudios.theroundtable</groupId>
-    <artifactId>plugin-spanish-billing</artifactId>
+    <groupId>org.lebastudios.theroundtableplugins</groupId>
+    <artifactId>sb</artifactId>
     <version>3.0.0</version>
-    <name>plugin-spanish-billing</name>
+    <name>sb</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -31,8 +31,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.lebastudios.theroundtable</groupId>
-            <artifactId>plugin-cash-register</artifactId>
+            <groupId>org.lebastudios.theroundtableplugins</groupId>
+            <artifactId>cr</artifactId>
             <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
@@ -128,7 +128,7 @@
                 <version>3.2.0</version>
                 <configuration>
                     <outputDirectory>${project.basedir}</outputDirectory>
-                    <finalName>${project.artifactId}</finalName>
+                    <finalName>sb</finalName>
                 </configuration>
             </plugin>
             <plugin>
