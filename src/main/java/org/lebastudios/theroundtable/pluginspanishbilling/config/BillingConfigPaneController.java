@@ -22,7 +22,7 @@ public class BillingConfigPaneController extends ConfigPaneController<NoConfigFi
     
     public BillingConfigPaneController()
     {
-        super(new NoConfigFile(), "Facturación", "billing.png");
+        super(new NoConfigFile(), "Facturación", "sb:billing.png");
     }
 
     @Override

@@ -53,7 +53,7 @@ public class PluginSpanishBilling implements IPlugin
     {
         if (!AppInstallation.thisInstalation().isMaster()) return List.of();
         
-        final var billingSettings = new LabeledIconButton("Facturación", "billing.png", _ ->
+        final var billingSettings = new LabeledIconButton("Facturación", "sb:billing.png", _ ->
         {
             MainStageController.getInstance().setCentralNode(new BillManagementPaneController());
         });
@@ -70,7 +70,7 @@ public class PluginSpanishBilling implements IPlugin
         if (!AccountManager.getInstance().isAccountAdmin()) return null;
         
         TreeItem<SettingsItem> root = new TreeItem<>();
-        root.setGraphic(new IconView("billing.png"));
+        root.setGraphic(new IconView("sb:billing.png"));
         
         SettingsItem item = new SettingsItem(new BillingConfigPaneController());    
         root.setValue(item);

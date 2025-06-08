@@ -73,7 +73,7 @@ public class BillManagementPaneController extends PaneController<BillManagementP
         else
         {
             billingStatusButton.setVisible(true);
-            billingStatusButton.setGraphic(new IconView("sync.png"));
+            billingStatusButton.setGraphic(new IconView("sb:sync.png"));
             billingStatusButton.setText("Quedan recibos sin numerar");
             billingStatusButton.setOnMouseClicked(_ ->
             {
