@@ -9,17 +9,17 @@
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
     <HBox alignment="CENTER_LEFT">
-        <Label text="%phrase.sellsSeries" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+        <Label text="%sb:phrase.sellsSeries" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
         <TextField fx:id="sellsSeriesTextField" />
     </HBox>
     
     <HBox alignment="CENTER_LEFT">
-        <Label text="%phrase.rectificationsSeries" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+        <Label text="%sb:phrase.rectificationsSeries" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
         <TextField fx:id="rectificationSeriesTextField" />
     </HBox>
     
     <HBox alignment="CENTER_LEFT">
-        <Label text="%word.delimiter" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+        <Label text="%sb:word.delimiter" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
         <ChoiceBox fx:id="delimiterChoiceBox" />
     </HBox>
     
