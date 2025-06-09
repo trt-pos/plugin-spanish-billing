@@ -38,8 +38,8 @@ public class Bill
         {
             return switch (this) 
             {
-                case DEFAULT -> "bill-ok.png";
-                case NEED_SYNC_WITH_SERVER -> "warning.png";
+                case DEFAULT -> "sb:bill-ok.png";
+                case NEED_SYNC_WITH_SERVER -> "sp:warning.png";
             };
         }
         
