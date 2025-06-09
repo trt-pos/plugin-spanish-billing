@@ -1,11 +1,11 @@
-package org.lebastudios.theroundtable.pluginspanishbilling;
+package org.lebastudios.theroundtableplugins.sb;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import org.lebastudios.theroundtable.config.GlobalPreferencesConfigData;
 import org.lebastudios.theroundtable.controllers.PaneController;
-import org.lebastudios.theroundtable.pluginspanishbilling.entities.SimplifiedBill;
+import org.lebastudios.theroundtableplugins.sb.entities.SimplifiedBill;
 import org.lebastudios.theroundtable.components.IconView;
 import org.lebastudios.theroundtable.components.PaginableListView;
 

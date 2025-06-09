@@ -1,14 +1,14 @@
-package org.lebastudios.theroundtable.pluginspanishbilling;
+package org.lebastudios.theroundtableplugins.sb;
 
 import org.controlsfx.control.action.Action;
 import org.hibernate.Session;
 import org.lebastudios.theroundtable.MainStageController;
 import org.lebastudios.theroundtable.database.Database;
-import org.lebastudios.theroundtable.plugincashregister.entities.Receipt;
-import org.lebastudios.theroundtable.pluginspanishbilling.entities.Bill;
-import org.lebastudios.theroundtable.pluginspanishbilling.entities.BillType;
-import org.lebastudios.theroundtable.pluginspanishbilling.entities.BillingConfig;
-import org.lebastudios.theroundtable.pluginspanishbilling.ordering.Number;
+import org.lebastudios.theroundtableplugins.cr.entities.Receipt;
+import org.lebastudios.theroundtableplugins.sb.entities.Bill;
+import org.lebastudios.theroundtableplugins.sb.entities.BillType;
+import org.lebastudios.theroundtableplugins.sb.entities.BillingConfig;
+import org.lebastudios.theroundtableplugins.sb.ordering.Number;
 
 import java.util.HashMap;
 import java.util.List;

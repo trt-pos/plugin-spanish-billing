@@ -1,4 +1,4 @@
-package org.lebastudios.theroundtable.pluginspanishbilling.entities;
+package org.lebastudios.theroundtableplugins.sb.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.lebastudios.theroundtable.database.PluginTable;
-import org.lebastudios.theroundtable.plugincashregister.entities.Receipt;
-
-import java.time.LocalDateTime;
+import org.lebastudios.theroundtableplugins.cr.entities.Receipt;
 
 @Setter
 @Getter

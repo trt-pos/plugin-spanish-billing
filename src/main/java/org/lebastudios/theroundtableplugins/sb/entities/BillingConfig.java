@@ -1,4 +1,4 @@
-package org.lebastudios.theroundtable.pluginspanishbilling.entities;
+package org.lebastudios.theroundtableplugins.sb.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

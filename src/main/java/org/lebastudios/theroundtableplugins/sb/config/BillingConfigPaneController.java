@@ -1,4 +1,4 @@
-package org.lebastudios.theroundtable.pluginspanishbilling.config;
+package org.lebastudios.theroundtableplugins.sb.config;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -7,8 +7,8 @@ import javafx.scene.control.TextField;
 import org.lebastudios.theroundtable.config.ConfigPaneController;
 import org.lebastudios.theroundtable.config.NoConfigFile;
 import org.lebastudios.theroundtable.database.Database;
-import org.lebastudios.theroundtable.pluginspanishbilling.entities.BillType;
-import org.lebastudios.theroundtable.pluginspanishbilling.entities.BillingConfig;
+import org.lebastudios.theroundtableplugins.sb.entities.BillType;
+import org.lebastudios.theroundtableplugins.sb.entities.BillingConfig;
 
 import java.util.HashMap;
 

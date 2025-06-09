@@ -1,4 +1,4 @@
-package org.lebastudios.theroundtable.pluginspanishbilling.ordering;
+package org.lebastudios.theroundtableplugins.sb.ordering;
 
 import org.junit.jupiter.api.Test;
 

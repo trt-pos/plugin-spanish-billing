@@ -1,6 +1,6 @@
-package org.lebastudios.theroundtable.pluginspanishbilling.entities;
+package org.lebastudios.theroundtableplugins.sb.entities;
 
-import org.lebastudios.theroundtable.plugincashregister.entities.Receipt;
+import org.lebastudios.theroundtableplugins.cr.entities.Receipt;
 
 import java.time.LocalDateTime;
 
