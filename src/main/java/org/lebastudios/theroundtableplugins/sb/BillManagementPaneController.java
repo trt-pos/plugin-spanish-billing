@@ -3,13 +3,13 @@ package org.lebastudios.theroundtableplugins.sb;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.lebastudios.theroundtable.MainStageController;
+import org.lebastudios.theroundtable.components.IconView;
+import org.lebastudios.theroundtable.components.PaginableListView;
+import org.lebastudios.theroundtable.components.SearchBox;
 import org.lebastudios.theroundtable.controllers.PaneController;
 import org.lebastudios.theroundtable.database.Database;
 import org.lebastudios.theroundtableplugins.sb.entities.Bill;
 import org.lebastudios.theroundtableplugins.sb.entities.SimplifiedBill;
-import org.lebastudios.theroundtable.components.IconView;
-import org.lebastudios.theroundtable.components.PaginableListView;
-import org.lebastudios.theroundtable.components.SearchBox;
 
 import java.util.List;
 
@@ -24,27 +24,26 @@ public class BillManagementPaneController extends PaneController<BillManagementP
             new PaginableListView.ItemsGenerator<>()
             {
                 static final String COMMON_HQL = "from Bill b " +
-                        "where b.id like :filter";
+                        "where b.id like :filter " +
+                        "order by b.receipt.transaction.date desc";
 
                 @Override
                 public List<SimplifiedBill> generateItems(int from, int to)
                 {
                     return Database.getInstance().connectQuery(session ->
                     {
-                        var a = session.createQuery( "from Bill b  order by b.receipt.transaction.date desc",
-                                        Bill.class) 
+                        return session.createQuery(COMMON_HQL, Bill.class)
+                                .setParameter("filter", "%" + billsSearchBox.getText() + "%")
+                                .setFirstResult(from)
+                                .setMaxResults(to)
+                                .getResultList()
                                 .stream()
                                 .map(b -> new SimplifiedBill(
                                         b.getId(),
-                                        b.getReceipt().getTransaction().getDate(), 
+                                        b.getReceipt().getTransaction().getDate(),
                                         b.getReceipt().getStatus(),
                                         Bill.Status.DEFAULT
-                                ))
-                                .toList();
-
-                        System.out.println("Generating items from " + from + " to " + to + ": " + a.size());
-                        
-                        return a;
+                                )).toList();
                     });
                 }
 
