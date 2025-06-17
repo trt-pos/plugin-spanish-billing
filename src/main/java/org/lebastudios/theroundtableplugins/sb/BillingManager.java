@@ -105,7 +105,7 @@ public class BillingManager
 
             session.persist(bill);
             
-            String billIdNumber = billId.substring(billId.lastIndexOf(config.getDelimiter()));
+            String billIdNumber = billId.substring(billId.lastIndexOf(config.getDelimiter()) + 1);
             config.setLastBillId(billId);
             config.setNextNumber(Number.next(billIdNumber));
         });
