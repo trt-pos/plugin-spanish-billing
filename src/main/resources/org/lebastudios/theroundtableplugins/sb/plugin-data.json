@@ -1,10 +1,10 @@
 {
-  "pluginName": "Facturación Española",
-  "pluginId": "sb",
-  "pluginDescription": "Plugin para hacer uso del sistema de facturación de España así como integración con Verifactu",
-  "pluginVersion": "3.0.0",
-  "pluginVendor": "Leba Studios - Software Solutions",
-  "pluginVendorUrl": "https://lebastudios.org",
+  "name": "Facturación Española",
+  "id": "sb",
+  "description": "Plugin para hacer uso del sistema de facturación de España así como integración con Verifactu",
+  "version": "3.0.0",
+  "vendor": "Leba Studios - Software Solutions",
+  "vendor-url": "https://lebastudios.org",
   "categories": [
     "general",
     "billing"
@@ -12,14 +12,14 @@
   "tags": [
     "verifactu"
   ],
-  "pluginDependencies": [
+  "dependencies": [
     {
-      "pluginId": "core",
-      "pluginVersion": "3.0.0"
+      "id": "core",
+      "version": "3.0.0"
     },
     {
-      "pluginId": "cr",
-      "pluginVersion": "3.0.0"
+      "id": "cr",
+      "version": "3.0.0"
     }
   ]
 }
