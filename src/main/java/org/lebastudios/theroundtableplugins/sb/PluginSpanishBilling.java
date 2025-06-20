@@ -36,16 +36,16 @@ public class PluginSpanishBilling implements IPlugin
         
         instance = this;
 
-        PluginCashRegisterEvents.onRequestReceiptBillNumber.addListener((receiptId, billNumber) -> 
-                BillingManager.getInstance().onRequestReceiptBillNumber(receiptId, billNumber));
-        PluginCashRegisterEvents.onRequestNewReceiptBillNumber.addListener((receiptId, billNumber) ->
-                BillingManager.getInstance().onRequestNewReceiptBillNumber(receiptId, billNumber));
-        PluginCashRegisterEvents.onRequestNewRectificationBillNumber.addListener((receiptId, billNumber) ->
-                BillingManager.getInstance().onRequestNewRectificationBillNumber(receiptId, billNumber));
-        PluginCashRegisterEvents.onReceiptBilled.addListener((receipt, billNumber) ->
-                BillingManager.getInstance().onReceiptBilled(receipt, billNumber, false));
-        PluginCashRegisterEvents.onModifiedReceiptBilled.addListener((receipt, billNumber) ->
-                BillingManager.getInstance().onReceiptBilled(receipt, billNumber, true));
+        PluginCashRegisterEvents.onRequestReceiptBillNumber.addListener((data) -> 
+                BillingManager.getInstance().onRequestReceiptBillNumber(data.receiptId(), data.billNumberOutput()));
+        PluginCashRegisterEvents.onRequestNewReceiptBillNumber.addListener((data) ->
+                BillingManager.getInstance().onRequestNewReceiptBillNumber(data.receiptId(), data.billNumberOutput()));
+        PluginCashRegisterEvents.onRequestNewRectificationBillNumber.addListener((data) ->
+                BillingManager.getInstance().onRequestNewRectificationBillNumber(data.receiptId(), data.billNumberOutput()));
+        PluginCashRegisterEvents.onReceiptBilled.addListener((data) ->
+                BillingManager.getInstance().onReceiptBilled(data.receipt(), data.billNumber(), false));
+        PluginCashRegisterEvents.onModifiedReceiptBilled.addListener((data) ->
+                BillingManager.getInstance().onReceiptBilled(data.receipt(), data.billNumber(), true));
     }
 
     @Override
