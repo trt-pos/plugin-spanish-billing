@@ -15,7 +15,7 @@
         <version>3.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.lebastudios.theroundtable</groupId>
@@ -61,7 +61,7 @@
             <version>2.3.1</version>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -76,7 +76,9 @@
                         </goals>
                         <configuration>
                             <wsdlUrls>
-                                <wsdlUrl>https://prewww2.aeat.es/static_files/common/internet/dep/aplicaciones/es/aeat/tikeV1.0/cont/ws/SistemaFacturacion.wsdl</wsdlUrl>
+                                <wsdlUrl>
+                                    https://prewww2.aeat.es/static_files/common/internet/dep/aplicaciones/es/aeat/tikeV1.0/cont/ws/SistemaFacturacion.wsdl
+                                </wsdlUrl>
                             </wsdlUrls>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalDTD=all</vmArg>
@@ -87,6 +89,10 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.lebastudios.theroundtable</groupId>
+                <artifactId>t-cleaner</artifactId>
             </plugin>
         </plugins>
     </build>
